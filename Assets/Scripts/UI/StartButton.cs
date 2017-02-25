@@ -12,15 +12,11 @@ public class StartButton : MonoBehaviour {
     public Canvas mainMenu;
     public GameObject loadingBar;
 
-    //public Button startButton;
-
     void Start()
     {
         Button btnComponent = gameObject.GetComponent<Button>();
         btnComponent.onClick.AddListener(TaskOnClick);
     }
-    
-   
 
     public void TaskOnClick()
     {
