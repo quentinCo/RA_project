@@ -75,9 +75,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\GameElement\Ennemi.cs" />
-    <Compile Include="Assets\Scripts\GameElement\GameManager.cs" />
-    <Compile Include="Assets\Scripts\GameElement\Generator.cs" />
+    <Compile Include="Assets\Scripts\GameElements\Ennemi.cs" />
+    <Compile Include="Assets\Scripts\GameElements\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GameElements\Generator.cs" />
+    <Compile Include="Assets\Scripts\UI\StartButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
