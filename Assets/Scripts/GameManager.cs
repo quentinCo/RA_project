@@ -18,14 +18,7 @@ public class GameManager : MonoBehaviour {
 
     private List<GameObject> generators = new List<GameObject>();
     private int[] notes = { 0, 2, 4, 5, 7, 9, 11}; // Notes without # notes
-    /*
-    // Music Parameter
-    [DllImport("AudioPluginDemo")]
-    private static extern float PitchDetectorGetFreq(int index);
-
-    [DllImport("AudioPluginDemo")]
-    private static extern int PitchDetectorDebug(float[] data);
-    */
+   
     private int octave = 0; //TODO: remove, probably temp
     private int note = 0; //TODO: remove, probably temp
     private bool noteDetected = false;
@@ -150,7 +143,6 @@ public class GameManager : MonoBehaviour {
 
     private void CreateGenerator(Vector3 position, Vector3 rotation)
     {
-//        Debug.Log("CreateGenerator");
         Quaternion quaterRotation = Quaternion.identity;
         quaterRotation.eulerAngles = rotation;
         var newGenerator = Instantiate(generator, position, quaterRotation);
