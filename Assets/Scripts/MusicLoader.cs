@@ -45,7 +45,8 @@ public class MusicLoader : MonoBehaviour {
             case AudioDataLoadState.Loading:
                 // TODO : loading bar
                 var rectTransform = gameObject.GetComponentInChildren<Image>().transform as RectTransform;
-                rectTransform.sizeDelta = new Vector2(musicLoader.progress, rectTransform.sizeDelta.x);
+                rectTransform.localScale = new Vector3(musicLoader.progress, 1, 0);
+                Debug.Log("Progress = " + musicLoader.progress);
                 break;
         }
     }

@@ -35,6 +35,7 @@ public class StartButton : MonoBehaviour {
         {
             loadingBar.SetActive(true);
             loadingBar.GetComponent<MusicLoader>().LoadMusic(path);
+            gameObject.SetActive(false);
         }
     }
     
