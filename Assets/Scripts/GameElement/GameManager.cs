@@ -32,13 +32,7 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log("Awake");
         // TODO : remove rand generation by card detection.
-        for(int i = 0; i < 7; ++i)  // 7 note nomber
-        {
-            float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
-            float y = UnityEngine.Random.Range(-30, 30);
-            float z = UnityEngine.Random.Range(50, 100);
-            this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
-        }
+        StartGame();
     }
     
 	// Use this for initialization
@@ -139,6 +133,17 @@ public class GameManager : MonoBehaviour {
         Generator generatorObject = generators[indexGenerator].GetComponent<Generator>();
         generatorObject.CreateEnnemi(currentNote);
         noteDetected = false;
+    }
+
+    public void StartGame()
+    {
+        for (int i = 0; i < 7; ++i)  // 7 note nomber
+        {
+            float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
+            float y = UnityEngine.Random.Range(-30, 30);
+            float z = UnityEngine.Random.Range(50, 100);
+            this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
+        }
     }
 
     private void CreateGenerator(Vector3 position, Vector3 rotation)
