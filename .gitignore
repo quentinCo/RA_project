@@ -1,12 +1,6 @@
-# =============== #
-# Unity generated #
-# =============== #
 Temp/
 Library/
 
-# ===================================== #
-# Visual Studio / MonoDevelop generated #
-# ===================================== #
 ExportedObj/
 obj/
 *.svd
@@ -18,3 +12,6 @@ obj/
 *.user
 *.unityproj
 *.booproj
+Library/assetDatabase3
+Library/assetDatabase3
+Library/assetDatabase3
