@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour {
         //int indexGenerator = UnityEngine.Random.Range(0, generators.Count);
         int indexGenerator = currentNote % generators.Count;
         Generator generatorObject = generators[indexGenerator].GetComponent<Generator>();
-        generatorObject.CreateEnnemi();
+        generatorObject.CreateEnnemi(currentNote);
         noteDetected = false;
     }
 
