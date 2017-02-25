@@ -64,7 +64,34 @@ public class GameManager : MonoBehaviour {
         fSample = AudioSettings.outputSampleRate;
         startTime = Time.time;
 
+        InitGameUI();
         PlayMusic();
+    }
+
+    /* UI Management */
+    private void InitGameUI()
+    {
+        GameObject mainUIObject = GameObject.Find("UI");
+        Component[] uiChilds = mainUIObject.GetComponentsInChildren(typeof(Transform), true);
+        var mainMenu = FindGameObject(uiChilds, "MainMenu");
+        Debug.Assert(mainMenu);
+        mainMenu.gameObject.SetActive(false);
+        var gameUI = FindGameObject(uiChilds, "GameUI");
+        Debug.Assert(gameUI);
+        gameUI.gameObject.SetActive(true);
+    }
+
+    private GameObject FindGameObject(Component[] parentObjectChilds, string name)
+    {
+        GameObject objectFinding = null;
+
+        foreach(Component gm in parentObjectChilds)
+        {
+            if (gm.name == name)
+                return gm.gameObject;
+        }
+
+        return objectFinding;
     }
 
     /* Music Control */

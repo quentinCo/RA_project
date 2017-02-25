@@ -10,8 +10,8 @@ public class StartButton : MonoBehaviour {
     public GameManager gameManager;
     public Canvas gameUI;
     public Canvas mainMenu;
+    public GameObject loadingBar;
 
-    private AudioClip loadingMusic;
     //public Button startButton;
 
     void Start()
@@ -20,13 +20,7 @@ public class StartButton : MonoBehaviour {
         btnComponent.onClick.AddListener(TaskOnClick);
     }
     
-    void Update()
-    {
-        if(loadingMusic)
-        {
-            CheckLoading();
-        }
-    }
+   
 
     public void TaskOnClick()
     {
@@ -39,28 +33,10 @@ public class StartButton : MonoBehaviour {
         string path = EditorUtility.OpenFilePanel("PLEASE CHOSE YOUR MUSIC ^^ ", "", format);
         if (path.Length != 0)
         {
-            WWW musicLoader = new WWW("file:///" + path);
-            loadingMusic = musicLoader.GetAudioClip(true);
+            loadingBar.SetActive(true);
+            loadingBar.GetComponent<MusicLoader>().LoadMusic(path);
         }
     }
-
-    private void CheckLoading()
-    {
-        switch (loadingMusic.loadState)
-        {
-            case AudioDataLoadState.Loaded:
-                gameManager.GetComponent<AudioSource>().clip = loadingMusic;
-                mainMenu.gameObject.SetActive(false);
-                gameManager.StartGame();
-                gameUI.gameObject.SetActive(false);
-                loadingMusic = null;
-                break;
-            case AudioDataLoadState.Failed:
-                // TODO : error message
-                break;
-            case AudioDataLoadState.Loading:
-                // TODO : loading bar
-                break;
-        }
-    }
+    
+    
 }

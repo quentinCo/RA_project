@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\GameElements\Ennemi.cs" />
     <Compile Include="Assets\Scripts\GameElements\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameElements\Generator.cs" />
+    <Compile Include="Assets\Scripts\MusicLoader.cs" />
     <Compile Include="Assets\Scripts\UI\StartButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
