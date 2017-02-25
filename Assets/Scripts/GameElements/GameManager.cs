@@ -30,15 +30,13 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
-        Debug.Log("Awake");
         // TODO : remove rand generation by card detection.
-        StartGame();
+//        StartGame();
     }
     
 	// Use this for initialization
 	void Start () {
-        fSample = AudioSettings.outputSampleRate;
-        startTime = Time.time;
+        
     }
 	
 	// Update is called once per frame
@@ -53,10 +51,46 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void StartGame()
+    {
+        for (int i = 0; i < 7; ++i)  // 7 note nomber
+        {
+            float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
+            float y = UnityEngine.Random.Range(-30, 30);
+            float z = UnityEngine.Random.Range(50, 100);
+            this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
+        }
+
+        fSample = AudioSettings.outputSampleRate;
+        startTime = Time.time;
+
+        PlayMusic();
+    }
+
+    /* Music Control */
+    private void PlayMusic()
+    {
+        Debug.Log("AUDIO SOURCE -> " + GetComponent<AudioSource>().clip);
+        GetComponent<AudioSource>().Play();
+    }
+
+    private void StopMusic()
+    {
+        GetComponent<AudioSource>().Stop();
+    }
+
+    private void PauseMusic(bool pause)
+    {
+        if (pause)
+            GetComponent<AudioSource>().Pause();
+        else
+            GetComponent<AudioSource>().UnPause();
+    }
+
+    /* Audio Analysis */
     private void GetNote()
     {
         float dTime = (Time.time - startTime);
-        Debug.Log("DeltaTime = " + dTime);
         if(dTime > deltaTime)
         {
             //float currentFrequency = PitchDetectorGetFreq(0);
@@ -126,6 +160,7 @@ public class GameManager : MonoBehaviour {
         return freqN * (fSample / 2) / qSamples; // convert index to frequency
     }
 
+    /* Element Creation */
     private void CreateEnnemi()
     {
         int indexGenerator = UnityEngine.Random.Range(0, generators.Count);
@@ -133,17 +168,6 @@ public class GameManager : MonoBehaviour {
         Generator generatorObject = generators[indexGenerator].GetComponent<Generator>();
         generatorObject.CreateEnnemi(currentNote);
         noteDetected = false;
-    }
-
-    public void StartGame()
-    {
-        for (int i = 0; i < 7; ++i)  // 7 note nomber
-        {
-            float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
-            float y = UnityEngine.Random.Range(-30, 30);
-            float z = UnityEngine.Random.Range(50, 100);
-            this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
-        }
     }
 
     private void CreateGenerator(Vector3 position, Vector3 rotation)
