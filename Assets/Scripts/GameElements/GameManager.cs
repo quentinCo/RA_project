@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour {
     private int currentNote = 0;
     private float startTime = 0;
 
+    private bool isInit = false;
+    private bool pause = false;
+
     private void Awake()
     {
         // TODO : remove rand generation by card detection.
@@ -42,30 +45,51 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(noteDetected == true)
-        {
             CreateEnnemi();
-        }
         else
-        {
             GetNote();
-        }
     }
-
+    /* State Management */
     public void StartGame()
     {
-        for (int i = 0; i < 7; ++i)  // 7 note nomber
+        pause = false;
+        if(!isInit)
         {
-            float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
-            float y = UnityEngine.Random.Range(-30, 30);
-            float z = UnityEngine.Random.Range(50, 100);
-            this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
+            for (int i = 0; i < 7; ++i)  // 7 note nomber
+            {
+                // TODO : change generator initiation with RA
+                float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
+                float y = UnityEngine.Random.Range(-30, 30);
+                float z = UnityEngine.Random.Range(50, 100);
+                this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
+            }
+            isInit = true;
         }
+        else
+            ResetEnnemies();
 
         fSample = AudioSettings.outputSampleRate;
         startTime = Time.time;
 
         InitGameUI();
         PlayMusic();
+
+        Time.timeScale = 1;
+    }
+
+    public void Pause(bool pause)
+    {
+        if (this.pause == pause)
+            return;
+
+        this.pause = pause;
+
+        if(!pause)
+            Time.timeScale = 1;
+        else
+            Time.timeScale = 0;
+
+        PauseMusic(pause);
     }
 
     /* UI Management */
@@ -76,9 +100,11 @@ public class GameManager : MonoBehaviour {
         var mainMenu = FindGameObject(uiChilds, "MainMenu");
         Debug.Assert(mainMenu);
         mainMenu.gameObject.SetActive(false);
+
         var gameUI = FindGameObject(uiChilds, "GameUI");
         Debug.Assert(gameUI);
         gameUI.gameObject.SetActive(true);
+        gameUI.GetComponentInChildren<PauseButton>().Init();
     }
 
     private GameObject FindGameObject(Component[] parentObjectChilds, string name)
@@ -97,7 +123,6 @@ public class GameManager : MonoBehaviour {
     /* Music Control */
     private void PlayMusic()
     {
-        Debug.Log("AUDIO SOURCE -> " + GetComponent<AudioSource>().clip);
         GetComponent<AudioSource>().Play();
     }
 
@@ -187,7 +212,7 @@ public class GameManager : MonoBehaviour {
         return freqN * (fSample / 2) / qSamples; // convert index to frequency
     }
 
-    /* Element Creation */
+    /* Game Object Management */
     private void CreateEnnemi()
     {
         int indexGenerator = UnityEngine.Random.Range(0, generators.Count);
@@ -203,5 +228,12 @@ public class GameManager : MonoBehaviour {
         quaterRotation.eulerAngles = rotation;
         var newGenerator = Instantiate(generator, position, quaterRotation);
         generators.Add(newGenerator);
+    }
+
+    private void ResetEnnemies()
+    {
+        Ennemi[] ennemies = GameObject.FindObjectsOfType<Ennemi>();
+        foreach(var ennemi in ennemies)
+            Destroy(ennemi.gameObject);
     }
 }

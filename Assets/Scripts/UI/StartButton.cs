@@ -14,6 +14,7 @@ public class StartButton : MonoBehaviour {
 
     void Start()
     {
+        loadingBar.SetActive(false);
         Button btnComponent = gameObject.GetComponent<Button>();
         btnComponent.onClick.AddListener(TaskOnClick);
     }
@@ -31,9 +32,15 @@ public class StartButton : MonoBehaviour {
         {
             loadingBar.SetActive(true);
             loadingBar.GetComponent<MusicLoader>().LoadMusic(path);
-            gameObject.SetActive(false);
+            gameObject.transform.parent.gameObject.SetActive(false);
+            //gameObject.SetActive(false);
         }
     }
     
+    public void Init()
+    {
+        loadingBar.SetActive(false);
+        gameObject.transform.parent.gameObject.SetActive(true);
+    }
     
 }

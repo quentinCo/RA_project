@@ -10,17 +10,11 @@ public class MusicLoader : MonoBehaviour {
 
     private AudioClip loadingMusic;
     private WWW musicLoader;
-    // Use this for initialization
-    void Start () {
-		
-	}
 
     void Update()
     {
         if (loadingMusic)
-        {
             CheckLoading();
-        }
     }
 
     public void LoadMusic(string path)
@@ -44,13 +38,10 @@ public class MusicLoader : MonoBehaviour {
                 if (!EditorUtility.DisplayDialog("Error", "There is a problem with the music that you have chosen :( .\nPlease Select another music.", "Chose a music", "Quit"))
                 {
                 #if UNITY_STANDALONE
-                            //Quit the application
                             Application.Quit();
                 #endif
-
-                            //If we are running in the editor
+                    
                 #if UNITY_EDITOR
-                            //Stop playing the scene
                             UnityEditor.EditorApplication.isPlaying = false;
                 #endif
                 }
@@ -61,7 +52,7 @@ public class MusicLoader : MonoBehaviour {
             case AudioDataLoadState.Loading:
                 var rectTransform = gameObject.GetComponentInChildren<Image>().transform as RectTransform;
                 rectTransform.localScale = new Vector3(musicLoader.progress, 1, 0);
-                break;*/
+                break;
          }
     }
 
