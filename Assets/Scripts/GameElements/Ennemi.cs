@@ -8,13 +8,11 @@ public class Ennemi : MonoBehaviour {
     private int life = 1;
     private Behaviour target;
     private Vector3 targetOldPosition;
-
-	// Use this for initialization
+    
 	void Start () {
-        SetTarget(Camera.main); // TODO :remove it after test
+        SetTarget(Camera.main); // TODO :remove it after test and RA
     }
 	
-	// Update is called once per frame
 	void Update () {
         if (targetOldPosition != target.transform.position)
             UpdateDirection();
@@ -22,12 +20,32 @@ public class Ennemi : MonoBehaviour {
 
     void OnMouseDown()
     {
-        Debug.Log("Mouse Down");
-        --life;
-        if(life == 0)
-            Destroy(gameObject);
 
-        //TODO : add score count
+        /*RaycastHit lhit = new RaycastHit();
+        Ray lray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(lray, out lhit))
+        {
+            Debug.Log("Hit something: " + lhit.collider.gameObject.name);
+            if (lhit.collider.gameObject == this.gameObject)
+            {
+                Debug.Log("Hit the health up button");
+                --life;
+                if (life == 0)
+                {
+                    GameObject.Find("GameManager").GetComponent<GameManager>().IncrementScore(1);
+                    Destroy(gameObject);
+                }
+            }
+
+        }*/
+
+        
+        --life;
+        if (life == 0)
+        {
+            GameObject.Find("GameManager").GetComponent<GameManager>().IncrementScore(1);
+            Destroy(gameObject);
+        }
     }
 
     public void SetLife(int life)
@@ -37,7 +55,6 @@ public class Ennemi : MonoBehaviour {
 
     public void SetTarget(Behaviour target)
     {
-//        Debug.Log("SetTarget()");
         this.target = target;
         targetOldPosition = target.transform.position;
         UpdateDirection();
@@ -45,7 +62,6 @@ public class Ennemi : MonoBehaviour {
 
     private void UpdateDirection()
     {
-//        Debug.Log("UpdateDirection()");
         // Compute new target
         Vector3 toTarget = target.transform.position - transform.position;
 

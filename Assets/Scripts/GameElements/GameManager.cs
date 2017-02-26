@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioSource))]
 
@@ -30,6 +31,9 @@ public class GameManager : MonoBehaviour {
 
     private bool isInit = false;
     private bool pause = false;
+
+    private int score = 0;
+    private int hightScore = 0;
 
     private void Awake()
     {
@@ -105,6 +109,8 @@ public class GameManager : MonoBehaviour {
         Debug.Assert(gameUI);
         gameUI.gameObject.SetActive(true);
         gameUI.GetComponentInChildren<PauseButton>().Init();
+
+        SetScores();
     }
 
     private GameObject FindGameObject(Component[] parentObjectChilds, string name)
@@ -235,5 +241,34 @@ public class GameManager : MonoBehaviour {
         Ennemi[] ennemies = GameObject.FindObjectsOfType<Ennemi>();
         foreach(var ennemi in ennemies)
             Destroy(ennemi.gameObject);
+    }
+
+    /* Score Management */
+    private void SetScores()
+    {
+        if (score > hightScore)
+            hightScore = score;
+
+        score = 0;
+
+        GameObject hightScoreObject = GameObject.Find("HightScore");
+        Debug.Assert(hightScoreObject, "hightScoreObject is null");
+        Text hightScoreText = hightScoreObject.GetComponentInChildren<Text>();
+        hightScoreText.text = hightScore.ToString();
+
+        GameObject scoreObject = GameObject.Find("Score");
+        Debug.Assert(scoreObject, "scoreObject is null");
+        Text scoreText = scoreObject.GetComponentInChildren<Text>();
+        scoreText.text = score.ToString();
+    }
+
+    public void IncrementScore(int increment)
+    {
+        score += increment;
+
+        GameObject scoreObject = GameObject.Find("Score");
+        Debug.Assert(scoreObject, "scoreObject is null");
+        Text scoreText = scoreObject.GetComponentInChildren<Text>();
+        scoreText.text = score.ToString();
     }
 }
