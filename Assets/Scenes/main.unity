@@ -121,8 +121,8 @@ RectTransform:
   m_Father: {fileID: 375317660}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.0033222437}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.88461536}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -433,8 +433,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 38871715}
   m_HandleRect: {fileID: 38871714}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99667776
+  m_Value: 0
+  m_Size: 0.88461536
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -896,6 +896,8 @@ MonoBehaviour:
   musicDirectoryName: Sounds
   buttonType: {fileID: 1538710617728360, guid: 1644dc1c52d7d1e4b96a79a319fda2fe, type: 2}
   gameManager: {fileID: 369692219}
+  posXbutton: 7.5
+  posYbutton: -28
 --- !u!1 &578289911
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,10 +932,10 @@ RectTransform:
   m_Father: {fileID: 413942835}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0025024, y: -153}
-  m_SizeDelta: {x: 202, y: 24}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0.0025024414, y: 57}
+  m_SizeDelta: {x: -506, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &578289913
 MonoBehaviour:
@@ -2430,17 +2432,17 @@ Prefab:
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0.0025024
+      value: 0.0025024414
       objectReference: {fileID: 0}
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -153
+      value: 57
       objectReference: {fileID: 0}
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 202
+      value: -506
       objectReference: {fileID: 0}
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
@@ -2450,22 +2452,22 @@ Prefab:
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224301269391615044, guid: f37bc472249035b4dbf512f7ccc83760,
         type: 2}
@@ -3079,7 +3081,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00000010430813}
+  m_AnchoredPosition: {x: 0, y: 36}
   m_SizeDelta: {x: 0, y: 301}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1739579003
