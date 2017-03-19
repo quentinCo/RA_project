@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour {
 
     private List<GameObject> generators = new List<GameObject>();
     private int[] notes = { 0, 2, 4, 5, 7, 9, 11}; // Notes without # notes
-   
+    //private int[] notes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }; // Notes with # notes
+
     private int octave = 0; //TODO: remove, probably temp
     private int note = 0; //TODO: remove, probably temp
     private bool noteDetected = false;
@@ -183,10 +184,12 @@ public class GameManager : MonoBehaviour {
             float currentFrequency = GetFrenquency();
             if (currentFrequency > 0.0f)
             {
-                float noteVal = 57.0f + 12.0f * Mathf.Log10(currentFrequency / 440.0f) / Mathf.Log10(2.0f);
+                float noteVal = Mathf.Abs(12.0f * Mathf.Log10(currentFrequency / 440.0f) / Mathf.Log10(2.0f));
+                Debug.Log("note = " + noteVal);
                 float f = Mathf.Floor(noteVal + 0.5f);
                 note = (int)f % 12;
                 octave = (int)Mathf.Floor((noteVal + 0.5f) / 12.0f);
+                Debug.Log("octave = " + octave);
                 if (octave >= minOctave && Array.IndexOf(notes, note) != -1 && note != currentNote)
                 {
                     noteDetected = true;
