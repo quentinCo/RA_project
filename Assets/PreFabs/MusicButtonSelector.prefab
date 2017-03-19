@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114287489962061192}
   - component: {fileID: 114521338312480548}
   m_Layer: 5
-  m_Name: MusicSelector
+  m_Name: MusicButtonSelector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
