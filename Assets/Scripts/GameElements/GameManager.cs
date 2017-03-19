@@ -99,15 +99,7 @@ public class GameManager : MonoBehaviour {
     /* UI Management */
     private void InitGameUI()
     {
-        GameObject mainUIObject = GameObject.Find("UI");
-        Component[] uiChilds = mainUIObject.GetComponentsInChildren(typeof(Transform), true);
-        var mainMenu = FindGameObject(uiChilds, "MainMenu");
-        Debug.Assert(mainMenu);
-        mainMenu.gameObject.SetActive(false);
-
-        var gameUI = FindGameObject(uiChilds, "GameUI");
-        Debug.Assert(gameUI);
-        gameUI.gameObject.SetActive(true);
+        var gameUI = UnactiveUiElements("GameUI");
         gameUI.GetComponentInChildren<PauseButton>().Init();
 
         SetScores();
@@ -126,7 +118,43 @@ public class GameManager : MonoBehaviour {
         return objectFinding;
     }
 
+    private GameObject UnactiveUiElements(string nameExecption = null)
+    {
+        GameObject mainUIObject = GameObject.Find("UI");
+        Component[] uiChilds = mainUIObject.GetComponentsInChildren(typeof(Transform), true);
+        foreach (var uiChild in uiChilds)
+        {
+            if (uiChild.transform.parent == mainUIObject.transform)
+                uiChild.gameObject.SetActive(false);
+        }
+
+        if(nameExecption != null)
+        {
+            var toActivate = FindGameObject(uiChilds, nameExecption);
+            Debug.Assert(toActivate);
+            toActivate.gameObject.SetActive(true);
+            return toActivate;
+        }
+        return null;
+    }
+
+    public void  DisplayMusicList()
+    {
+        GameObject mainUIObject = GameObject.Find("UI");
+        Component[] uiChilds = mainUIObject.GetComponentsInChildren(typeof(Transform), true);
+        
+        var musicList = FindGameObject(uiChilds, "MusicList");
+        Debug.Assert(musicList);
+        musicList.gameObject.SetActive(true);
+    }
+
     /* Music Control */
+    public void LoadMusic(string pathMusic)
+    {
+        GameObject musicLoading = UnactiveUiElements("MusicLoading");
+        musicLoading.GetComponentInChildren<MusicLoader>().LoadMusic(pathMusic);
+    }
+
     private void PlayMusic()
     {
         GetComponent<AudioSource>().Play();
