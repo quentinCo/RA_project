@@ -7,7 +7,7 @@ public class SelectMusicButton : MonoBehaviour {
 
     private string musicName = "";
     private string musicPath = "";
-    public MusicLoader musicLoader;
+    public GameManager gameManager;
 
     void Start()
     {
@@ -18,8 +18,8 @@ public class SelectMusicButton : MonoBehaviour {
 
     public void TaskOnClick()
     {
-        Debug.Assert(musicLoader);
-        musicLoader.LoadMusic(musicPath);
+        Debug.Assert(gameManager);
+        gameManager.LoadMusic(musicPath);
     }
 
     public void SetMusicName(string name)
@@ -33,9 +33,9 @@ public class SelectMusicButton : MonoBehaviour {
         musicPath = path;
     }
 
-    public void SetMusicLoader(MusicLoader gm)
+    public void SetManager(GameManager gm)
     {
-        musicLoader = gm;
+        gameManager = gm;
     }
 
 }

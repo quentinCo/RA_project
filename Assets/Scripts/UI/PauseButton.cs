@@ -39,7 +39,7 @@ public class PauseButton : MonoBehaviour {
 
         pause = false;
         StartButton startButton = (StartButton)pauseScreen.GetComponentInChildren(typeof(StartButton), true);
-        startButton.Init();
+        //startButton.Init();
         pauseScreen.SetActive(false);
     }
 }

@@ -13,12 +13,12 @@ public class QuitButton : MonoBehaviour {
 
     public void TaskOnClick()
     {
-        #if UNITY_STANDALONE
-                Application.Quit();
-        #endif
-
         #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        //#endif
+        //#if UNITY_STANDALONE
+            Application.Quit();
         #endif
     }
 }
