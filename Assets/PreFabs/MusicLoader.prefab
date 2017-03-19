@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114053454525177472}
   - component: {fileID: 114075535630567162}
   m_Layer: 5
-  m_Name: LoadingBar
+  m_Name: MusicLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,7 +219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 15}
+  m_AnchoredPosition: {x: 0, y: 19}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224594182192172690
@@ -230,7 +230,7 @@ RectTransform:
   m_GameObject: {fileID: 1425083778756404}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2875336, y: 1, z: 1}
   m_Children:
   - {fileID: 224114621032484588}
   - {fileID: 224829735252591698}
