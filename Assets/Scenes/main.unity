@@ -2353,7 +2353,7 @@ Prefab:
         type: 2}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 16aa8123ffb5c6b4494096ce8f651a3d, type: 3}
     - target: {fileID: 114836036255949204, guid: aa8bfde34dcb4b545adce3e57fdf2060,
         type: 2}
       propertyPath: octaveToDetect
