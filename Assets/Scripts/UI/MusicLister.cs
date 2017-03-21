@@ -17,8 +17,9 @@ public class MusicLister : MonoBehaviour {
     private List<string> musicList = new List<string>();
 
 	// Use this for initialization
-	void Start () {
-        appSoundDirectory = Application.dataPath + "/" + musicDirectoryName;
+	void Start ()
+    {
+        appSoundDirectory = Application.streamingAssetsPath + "/" + musicDirectoryName;
         GetSoundList();
         GenerateButtons();
     }
