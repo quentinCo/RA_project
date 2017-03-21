@@ -19,7 +19,12 @@ public class MusicLister : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        appSoundDirectory = Application.streamingAssetsPath + "/" + musicDirectoryName;
+    #if UNITY_ANDROID
+        appSoundDirectory = "jar:file://" + Application.dataPath + "!/assets/" + musicDirectoryName +"/";
+    #else
+        appSoundDirectory = Application.streamingAssetsPath + "/" + musicDirectoryName + "/";
+    #endif
+        Debug.Log("appSoundDirectory = " + appSoundDirectory);
         GetSoundList();
         GenerateButtons();
     }
@@ -27,15 +32,16 @@ public class MusicLister : MonoBehaviour {
     // Recupere la liste des musique dans le dossier
     private void GetSoundList()
     {
-        var info = new DirectoryInfo(appSoundDirectory);
-        var fileInfo = info.GetFiles();
+        DirectoryInfo info = new DirectoryInfo(appSoundDirectory);
+        FileInfo[] fileInfo = info.GetFiles();
 
-        string extension = (SystemInfo.deviceType == DeviceType.Desktop) ? ".wav" : ".mp3"; // WWW can read mp3, but only on phone.
+        //string extension = (SystemInfo.deviceType == DeviceType.Desktop) ? ".wav" : ".mp3"; // WWW can read mp3, but only on phone.
 
-        foreach (var file in fileInfo)
+        foreach (FileInfo file in fileInfo)
         {
-            if (file.Extension == extension)
+            //if (file.Extension == extension)
                 musicList.Add(file.Name);
+            Debug.Log("file.Name" + file.Name);
         }
     }
 
@@ -60,8 +66,8 @@ public class MusicLister : MonoBehaviour {
             // Initialisation des parametrer du boutton
             SelectMusicButton buttonComponent = newObj.GetComponent<SelectMusicButton>();
             buttonComponent.SetManager(gameManager);
-            buttonComponent.SetMusicPath(appSoundDirectory + "/" + musicList[i % 2]);
-            buttonComponent.SetMusicName(musicList[i % 2].Substring(0, musicList[i % 2].Length - 4)); // 4 size of ".mp3" | ".wav"
+            buttonComponent.SetMusicPath(appSoundDirectory + musicList[i]);
+            buttonComponent.SetMusicName(musicList[i].Substring(0, musicList[i].Length - 4)); // 4 size of ".mp3" | ".wav"
         }
     }
 }
