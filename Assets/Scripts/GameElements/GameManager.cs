@@ -44,7 +44,13 @@ public class GameManager : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-        
+        fSample = AudioSettings.outputSampleRate;
+        GameObject[] generatorObjects = GameObject.FindGameObjectsWithTag("Generator");
+        foreach (GameObject generator in generatorObjects) {
+            generators.Add(generator);
+        }
+
+        Debug.Log(generators.Count);
     }
 	
 	// Update is called once per frame
@@ -58,9 +64,10 @@ public class GameManager : MonoBehaviour {
     public void StartGame()
     {
         pause = false;
-        if(!isInit)
+        if(isInit)
         {
-            for (int i = 0; i < 7; ++i)  // 7 note nomber
+            ResetEnnemies();
+            /*for (int i = 0; i < 7; ++i)  // 7 note nomber
             {
                 // TODO : change generator initiation with RA
                 float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
@@ -68,12 +75,12 @@ public class GameManager : MonoBehaviour {
                 float z = UnityEngine.Random.Range(50, 100);
                 this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
             }
+            isInit = true;*/
+        }
+        else{
             isInit = true;
         }
-        else
-            ResetEnnemies();
-
-        fSample = AudioSettings.outputSampleRate;
+            
         startTime = Time.time;
 
         InitGameUI();
@@ -266,12 +273,20 @@ public class GameManager : MonoBehaviour {
         noteDetected = false;
     }
 
-    private void CreateGenerator(Vector3 position, Vector3 rotation)
+    public GameObject CreateGenerator(Vector3 position, Vector3 rotation)
     {
         Quaternion quaterRotation = Quaternion.identity;
         quaterRotation.eulerAngles = rotation;
         var newGenerator = Instantiate(generator, position, quaterRotation);
         generators.Add(newGenerator);
+        return newGenerator;
+    }
+
+    public void RemoveGenerator(GameObject generator)
+    {
+        generators.Remove(generator);
+        Destroy(generator);
+        Debug.Log(generators.Count);
     }
 
     private void ResetEnnemies()
