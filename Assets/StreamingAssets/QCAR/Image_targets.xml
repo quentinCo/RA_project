@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="tt_ticket_t_plus_gf" size="2.200000 1.000000" />
+    <ImageTarget name="Book" size="0.130000 0.216991" />
+  </Tracking>
+</QCARConfig>
