@@ -20,9 +20,9 @@ public class MusicLister : MonoBehaviour {
 	void Start ()
     {
     //#if UNITY_ANDROID
-        appSoundDirectory = /*"jar:file://" +*/ Application.dataPath + "!/assets/" + musicDirectoryName +"/";
+        appSoundDirectory = /*"jar:file://" +*/ Application.dataPath + "!/assets/" + musicDirectoryName;
     /*#else
-        appSoundDirectory = Application.streamingAssetsPath + "/" + musicDirectoryName + "/";
+        appSoundDirectory = Application.streamingAssetsPath + "/" + musicDirectoryName;
     #endif*/
         Debug.Log("appSoundDirectory = " + appSoundDirectory);
         GetSoundList();
@@ -35,11 +35,11 @@ public class MusicLister : MonoBehaviour {
         DirectoryInfo info = new DirectoryInfo(appSoundDirectory);
         FileInfo[] fileInfo = info.GetFiles();
 
-        //string extension = (SystemInfo.deviceType == DeviceType.Desktop) ? ".wav" : ".mp3"; // WWW can read mp3, but only on phone.
+        string extension = (SystemInfo.deviceType == DeviceType.Desktop) ? ".wav" : ".mp3"; // WWW can read mp3, but only on phone.
 
         foreach (FileInfo file in fileInfo)
         {
-            //if (file.Extension == extension)
+            if (file.Extension == extension)
                 musicList.Add(file.Name);
             Debug.Log("file.Name" + file.Name);
         }
@@ -66,7 +66,7 @@ public class MusicLister : MonoBehaviour {
             // Initialisation des parametrer du boutton
             SelectMusicButton buttonComponent = newObj.GetComponent<SelectMusicButton>();
             buttonComponent.SetManager(gameManager);
-            buttonComponent.SetMusicPath(appSoundDirectory + musicList[i]);
+            buttonComponent.SetMusicPath(appSoundDirectory + "/" + musicList[i]);
             buttonComponent.SetMusicName(musicList[i].Substring(0, musicList[i].Length - 4)); // 4 size of ".mp3" | ".wav"
         }
     }
