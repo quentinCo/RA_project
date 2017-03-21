@@ -5,7 +5,7 @@ public class ImageTargetGenerator : MonoBehaviour,
                                             ITrackableEventHandler
 {
     private TrackableBehaviour mTrackableBehaviour;
-    public GameManager gameManager;
+    private GameManager gameManager;
     private GameObject generator;
  
     void Start()
@@ -26,6 +26,7 @@ public class ImageTargetGenerator : MonoBehaviour,
             newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
             // Play audio when target is found
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             generator = gameManager.CreateGenerator(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
             generator.transform.SetParent(gameObject.transform);
             generator.transform.localPosition = new Vector3(0, 0, 0);
