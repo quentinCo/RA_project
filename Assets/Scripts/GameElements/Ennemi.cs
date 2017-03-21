@@ -11,6 +11,7 @@ public class Ennemi : MonoBehaviour {
     
 	void Start () {
         SetTarget(Camera.main); // TODO :remove it after test and RA
+        transform.Rotate(Vector3.left * 90, Space.Self);
     }
 	
 	void Update () {

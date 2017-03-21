@@ -35,7 +35,7 @@ public class ImageTargetGenerator : MonoBehaviour,
             quaterRotation.eulerAngles = new Vector3(0, -180, 0);
             generator.transform.localRotation = quaterRotation;
 
-            generator.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            generator.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
         }
         else
         {
