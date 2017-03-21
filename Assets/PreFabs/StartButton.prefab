@@ -127,9 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  gameUI: {fileID: 0}
-  mainMenu: {fileID: 0}
-  loadingBar: {fileID: 0}
 --- !u!114 &114779447297460906
 MonoBehaviour:
   m_ObjectHideFlags: 1
