@@ -19,11 +19,11 @@ public class MusicLister : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-    #if UNITY_ANDROID
-        appSoundDirectory = "jar:file://" + Application.dataPath + "!/assets/" + musicDirectoryName +"/";
-    #else
+    //#if UNITY_ANDROID
+        appSoundDirectory = /*"jar:file://" +*/ Application.dataPath + "!/assets/" + musicDirectoryName +"/";
+    /*#else
         appSoundDirectory = Application.streamingAssetsPath + "/" + musicDirectoryName + "/";
-    #endif
+    #endif*/
         Debug.Log("appSoundDirectory = " + appSoundDirectory);
         GetSoundList();
         GenerateButtons();
