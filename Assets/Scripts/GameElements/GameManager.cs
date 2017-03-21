@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour {
     private float startTime = 0;
 
     private bool isInit = false;
+    private bool started = false;
     private bool pause = false;
 
     private int score = 0;
@@ -55,36 +56,38 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(noteDetected == true)
-            CreateEnnemi();
-        else
-            GetNote();
+        if(!isInit && started){
+            if(generators.Count > 0){
+                this.StartGame();
+            }
+        }
+        
+        if(isInit){
+            if(noteDetected == true)
+                CreateEnnemi();
+            else
+                GetNote();
+        }
     }
     /* State Management */
     public void StartGame()
     {
         pause = false;
+        started = true;
+
         if(isInit)
         {
             ResetEnnemies();
-            /*for (int i = 0; i < 7; ++i)  // 7 note nomber
-            {
-                // TODO : change generator initiation with RA
-                float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
-                float y = UnityEngine.Random.Range(-30, 30);
-                float z = UnityEngine.Random.Range(50, 100);
-                this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
-            }
-            isInit = true;*/
+            isInit = false;
         }
-        else{
+
+        if(generators.Count > 0){
             isInit = true;
+            startTime = Time.time;
+            PlayAtBegin();
         }
-            
-        startTime = Time.time;
 
         InitGameUI();
-        PlayAtBegin();
 
         Time.timeScale = 1;
     }
