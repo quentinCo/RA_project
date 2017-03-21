@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour {
     private float startTime = 0;
 
     private bool isInit = false;
+    private bool started = false;
     private bool pause = false;
 
     private int score = 0;
@@ -44,40 +45,49 @@ public class GameManager : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-        
+        fSample = AudioSettings.outputSampleRate;
+        GameObject[] generatorObjects = GameObject.FindGameObjectsWithTag("Generator");
+        foreach (GameObject generator in generatorObjects) {
+            generators.Add(generator);
+        }
+
+        Debug.Log(generators.Count);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if(noteDetected == true)
-            CreateEnnemi();
-        else
-            GetNote();
+        if(!isInit && started){
+            if(generators.Count > 0){
+                this.StartGame();
+            }
+        }
+        
+        if(isInit){
+            if(noteDetected == true)
+                CreateEnnemi();
+            else
+                GetNote();
+        }
     }
     /* State Management */
     public void StartGame()
     {
         pause = false;
-        if(!isInit)
-        {
-            for (int i = 0; i < 7; ++i)  // 7 note nomber
-            {
-                // TODO : change generator initiation with RA
-                float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
-                float y = UnityEngine.Random.Range(-30, 30);
-                float z = UnityEngine.Random.Range(50, 100);
-                this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
-            }
-            isInit = true;
-        }
-        else
-            ResetEnnemies();
+        started = true;
 
-        fSample = AudioSettings.outputSampleRate;
-        startTime = Time.time;
+        if(isInit)
+        {
+            ResetEnnemies();
+            isInit = false;
+        }
+
+        if(generators.Count > 0){
+            isInit = true;
+            startTime = Time.time;
+            PlayAtBegin();
+        }
 
         InitGameUI();
-        PlayAtBegin();
 
         Time.timeScale = 1;
     }
@@ -266,12 +276,20 @@ public class GameManager : MonoBehaviour {
         noteDetected = false;
     }
 
-    private void CreateGenerator(Vector3 position, Vector3 rotation)
+    public GameObject CreateGenerator(Vector3 position, Vector3 rotation)
     {
         Quaternion quaterRotation = Quaternion.identity;
         quaterRotation.eulerAngles = rotation;
         var newGenerator = Instantiate(generator, position, quaterRotation);
         generators.Add(newGenerator);
+        return newGenerator;
+    }
+
+    public void RemoveGenerator(GameObject generator)
+    {
+        generators.Remove(generator);
+        Destroy(generator);
+        Debug.Log(generators.Count);
     }
 
     private void ResetEnnemies()
