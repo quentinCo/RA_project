@@ -19,7 +19,8 @@ public class StartButton : MonoBehaviour {
 
     public void TaskOnClick()
     {
-        gameManager.DisplayMusicList();
+        gameManager.StartGame();
+        //gameManager.DisplayMusicList();
     }
     /*
     public void Init()

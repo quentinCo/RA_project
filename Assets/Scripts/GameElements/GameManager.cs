@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour {
     public float threshold = 0.02f;      // minimum amplitude to extract pitch
 
     private List<GameObject> generators = new List<GameObject>();
-    private int[] notes = { 0, 2, 4, 5, 7, 9, 11}; // Notes without # notes
-    //private int[] notes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }; // Notes with # notes
+    //private int[] notes = { 0, 2, 4, 5, 7, 9, 11}; // Notes without # notes
+    private int[] notes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }; // Notes with # notes
 
     private int octave = 0; //TODO: remove, probably temp
     private int note = 0; //TODO: remove, probably temp
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour {
         startTime = Time.time;
 
         InitGameUI();
-        PlayMusic();
+        PlayAtBegin();
 
         Time.timeScale = 1;
     }
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour {
         }
         return null;
     }
-
+    
     public void  DisplayMusicList()
     {
         GameObject mainUIObject = GameObject.Find("UI");
@@ -148,12 +148,19 @@ public class GameManager : MonoBehaviour {
         Debug.Assert(musicList);
         musicList.gameObject.SetActive(true);
     }
-
+    
     /* Music Control */
     public void LoadMusic(string pathMusic)
     {
         GameObject musicLoading = UnactiveUiElements("MusicLoading");
         musicLoading.GetComponentInChildren<MusicLoader>().LoadMusic(pathMusic);
+    }
+
+    public void PlayAtBegin()
+    {
+        var audioSource = GetComponent<AudioSource>();
+        audioSource.Stop();
+        audioSource.Play();
     }
 
     private void PlayMusic()
