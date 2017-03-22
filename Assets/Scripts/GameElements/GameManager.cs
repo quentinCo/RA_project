@@ -18,8 +18,9 @@ public class GameManager : MonoBehaviour {
     public float threshold = 0.02f;      // minimum amplitude to extract pitch
 
     private List<GameObject> generators = new List<GameObject>();
-    private int[] notes = { 0, 2, 4, 5, 7, 9, 11}; // Notes without # notes
-   
+    //private int[] notes = { 0, 2, 4, 5, 7, 9, 11}; // Notes without # notes
+    private int[] notes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }; // Notes with # notes
+
     private int octave = 0; //TODO: remove, probably temp
     private int note = 0; //TODO: remove, probably temp
     private bool noteDetected = false;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour {
     private float startTime = 0;
 
     private bool isInit = false;
+    private bool started = false;
     private bool pause = false;
 
     private int score = 0;
@@ -43,40 +45,49 @@ public class GameManager : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-        
+        fSample = AudioSettings.outputSampleRate;
+        GameObject[] generatorObjects = GameObject.FindGameObjectsWithTag("Generator");
+        foreach (GameObject generator in generatorObjects) {
+            generators.Add(generator);
+        }
+
+        Debug.Log(generators.Count);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if(noteDetected == true)
-            CreateEnnemi();
-        else
-            GetNote();
+        if(!isInit && started){
+            if(generators.Count > 0){
+                this.StartGame();
+            }
+        }
+        
+        if(isInit){
+            if(noteDetected == true)
+                CreateEnnemi();
+            else
+                GetNote();
+        }
     }
     /* State Management */
     public void StartGame()
     {
         pause = false;
-        if(!isInit)
-        {
-            for (int i = 0; i < 7; ++i)  // 7 note nomber
-            {
-                // TODO : change generator initiation with RA
-                float x = UnityEngine.Random.Range(-80, 80); // Caution to conflict between System and UnityEngine Random 
-                float y = UnityEngine.Random.Range(-30, 30);
-                float z = UnityEngine.Random.Range(50, 100);
-                this.CreateGenerator(new Vector3(x, y, z), new Vector3(-90, 0, 0)); //TODO : change rotation for card inclinaison
-            }
-            isInit = true;
-        }
-        else
-            ResetEnnemies();
+        started = true;
 
-        fSample = AudioSettings.outputSampleRate;
-        startTime = Time.time;
+        if(isInit)
+        {
+            ResetEnnemies();
+            isInit = false;
+        }
+
+        if(generators.Count > 0){
+            isInit = true;
+            startTime = Time.time;
+            PlayAtBegin();
+        }
 
         InitGameUI();
-        PlayMusic();
 
         Time.timeScale = 1;
     }
@@ -99,15 +110,7 @@ public class GameManager : MonoBehaviour {
     /* UI Management */
     private void InitGameUI()
     {
-        GameObject mainUIObject = GameObject.Find("UI");
-        Component[] uiChilds = mainUIObject.GetComponentsInChildren(typeof(Transform), true);
-        var mainMenu = FindGameObject(uiChilds, "MainMenu");
-        Debug.Assert(mainMenu);
-        mainMenu.gameObject.SetActive(false);
-
-        var gameUI = FindGameObject(uiChilds, "GameUI");
-        Debug.Assert(gameUI);
-        gameUI.gameObject.SetActive(true);
+        var gameUI = UnactiveUiElements("GameUI");
         gameUI.GetComponentInChildren<PauseButton>().Init();
 
         SetScores();
@@ -126,7 +129,50 @@ public class GameManager : MonoBehaviour {
         return objectFinding;
     }
 
+    private GameObject UnactiveUiElements(string nameExecption = null)
+    {
+        GameObject mainUIObject = GameObject.Find("UI");
+        Component[] uiChilds = mainUIObject.GetComponentsInChildren(typeof(Transform), true);
+        foreach (var uiChild in uiChilds)
+        {
+            if (uiChild.transform.parent == mainUIObject.transform)
+                uiChild.gameObject.SetActive(false);
+        }
+
+        if(nameExecption != null)
+        {
+            var toActivate = FindGameObject(uiChilds, nameExecption);
+            Debug.Assert(toActivate);
+            toActivate.gameObject.SetActive(true);
+            return toActivate;
+        }
+        return null;
+    }
+    
+    public void  DisplayMusicList()
+    {
+        GameObject mainUIObject = GameObject.Find("UI");
+        Component[] uiChilds = mainUIObject.GetComponentsInChildren(typeof(Transform), true);
+        
+        var musicList = FindGameObject(uiChilds, "MusicList");
+        Debug.Assert(musicList);
+        musicList.gameObject.SetActive(true);
+    }
+    
     /* Music Control */
+    public void LoadMusic(string pathMusic)
+    {
+        GameObject musicLoading = UnactiveUiElements("MusicLoading");
+        musicLoading.GetComponentInChildren<MusicLoader>().LoadMusic(pathMusic);
+    }
+
+    public void PlayAtBegin()
+    {
+        var audioSource = GetComponent<AudioSource>();
+        audioSource.Stop();
+        audioSource.Play();
+    }
+
     private void PlayMusic()
     {
         GetComponent<AudioSource>().Play();
@@ -155,10 +201,12 @@ public class GameManager : MonoBehaviour {
             float currentFrequency = GetFrenquency();
             if (currentFrequency > 0.0f)
             {
-                float noteVal = 57.0f + 12.0f * Mathf.Log10(currentFrequency / 440.0f) / Mathf.Log10(2.0f);
+                float noteVal = Mathf.Abs(12.0f * Mathf.Log10(currentFrequency / 440.0f) / Mathf.Log10(2.0f));
+                Debug.Log("note = " + noteVal);
                 float f = Mathf.Floor(noteVal + 0.5f);
                 note = (int)f % 12;
                 octave = (int)Mathf.Floor((noteVal + 0.5f) / 12.0f);
+                Debug.Log("octave = " + octave);
                 if (octave >= minOctave && Array.IndexOf(notes, note) != -1 && note != currentNote)
                 {
                     noteDetected = true;
@@ -228,12 +276,20 @@ public class GameManager : MonoBehaviour {
         noteDetected = false;
     }
 
-    private void CreateGenerator(Vector3 position, Vector3 rotation)
+    public GameObject CreateGenerator(Vector3 position, Vector3 rotation)
     {
         Quaternion quaterRotation = Quaternion.identity;
         quaterRotation.eulerAngles = rotation;
         var newGenerator = Instantiate(generator, position, quaterRotation);
         generators.Add(newGenerator);
+        return newGenerator;
+    }
+
+    public void RemoveGenerator(GameObject generator)
+    {
+        generators.Remove(generator);
+        Destroy(generator);
+        Debug.Log(generators.Count);
     }
 
     private void ResetEnnemies()

@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1394974049473106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10, y: 0, z: 10}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a80a7b08d93ccb2409cc42d9d273849a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 60
 --- !u!136 &136907626324877266
 CapsuleCollider:
   m_ObjectHideFlags: 1
